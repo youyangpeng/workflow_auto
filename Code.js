@@ -1,12 +1,17 @@
 
-  function generateEmail() {
+  function quoterequestdraft() {
 
-    const sheet = SpreadsheetApp.getActiveSpreadsheet()
+
+    const dashboard = SpreadsheetApp.getActiveSpreadsheet()
+                                .getSheetByName("Dashboard");
+
+    const database =  SpreadsheetApp.getActiveSpreadsheet()
                                 .getSheetByName("Translators");
 
-    const translator = sheet.getRange("F2").getValue();
+    const translator = dashboard.getRange("A2").getValue();
 
-    const data = sheet.getDataRange().getValues();
+
+    const data = database.getDataRange().getValues();
 
     for (let i = 1; i < data.length; i++) {
 
@@ -16,15 +21,15 @@
         const target = data[i][2].trim();
         const email = data[i][3];
         const name = data[i][0].split("-")[0];
-        
+
         let subject;
         let body;
         const sourceFr = languageMap[source];
         const targetFr = languageMap[target];
-        
-  
+
+
         const vowels = ["a", "à", "â", "e", "é", "è", "ê", "i", "î", "o", "ô", "u", "ù"];
-        
+
         let sourceText;
         if (vowels.includes(sourceFr[0].toLowerCase())) {
         sourceText = `de l'${sourceFr}`;
@@ -43,7 +48,7 @@
 
           subject = "Demande de devis";
 
-          body = `  
+          body = `
           Bonjour ${name},
 
           Pouvez-vous nous fournir un devis pour le document ci-joint ?
@@ -58,7 +63,7 @@
             subject = `Quote Request - certified translation from ${source} into ${target}`;
 
             body = `
-          
+
           Dear ${name},
 
           Could you please provide a quote for the attached document?
@@ -69,7 +74,7 @@
           `;
 
           }
-          
+
         GmailApp.createDraft(
           email,
           subject,
