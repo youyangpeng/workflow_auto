@@ -8,10 +8,15 @@
     const database =  SpreadsheetApp.getActiveSpreadsheet()
                                 .getSheetByName("Translators");
 
+    const templates =  SpreadsheetApp.getActiveSpreadsheet()
+                                .getSheetByName("Template");
+
     const translator = dashboard.getRange("A2").getValue();
 
 
     const data = database.getDataRange().getValues();
+
+    const email_tpls = templates.getDataRange().getValues();
 
     for (let i = 1; i < data.length; i++) {
 
@@ -46,35 +51,24 @@
 
         if (source.includes("French") || target.includes("French")) {
 
-          subject = "Demande de devis";
+          subject = email_tpls[1][2].replaceAll("{{sourceText}}", sourceText)
+          .replaceAll("{{targetText}}", targetText);
 
-          body = `
-          Bonjour ${name},
-
-          Pouvez-vous nous fournir un devis pour le document ci-joint ?
-
-          Paire de langues : ${sourceText}>${targetText}
-
-          Merci.
-          `;
+          body = [1][3].replaceAll("{{name}}", name)
+          .replaceAll("{{sourceText}}", sourceText)
+          .replaceAll("{{targetText}}", targetText);
 
           } else {
 
-            subject = `Quote Request - certified translation from ${source} into ${target}`;
+            subject = email_tpls[2][2].replaceAll("{{source}}", source)
+          .replaceAll("{{target}}", target);;
 
-            body = `
-
-          Dear ${name},
-
-          Could you please provide a quote for the attached document?
-
-          Language Pair:  ${source}>${target}
-
-          Thank you.
-          `;
+            body =  email_tpls[2][3].replaceAll("{{name}}", name)
+           .replaceAll("{{source}}", source)
+          .replaceAll("{{target}}", target);
 
           }
-
+        Logger.log (body)
         GmailApp.createDraft(
           email,
           subject,
