@@ -54,7 +54,7 @@
           subject = email_tpls[1][2].replaceAll("{{sourceText}}", sourceText)
           .replaceAll("{{targetText}}", targetText);
 
-          body = [1][3].replaceAll("{{name}}", name)
+          body = email_tpls[1][3].replaceAll("{{name}}", name)
           .replaceAll("{{sourceText}}", sourceText)
           .replaceAll("{{targetText}}", targetText);
 
@@ -63,12 +63,12 @@
             subject = email_tpls[2][2].replaceAll("{{source}}", source)
           .replaceAll("{{target}}", target);;
 
-            body =  email_tpls[2][3].replaceAll("{{name}}", name)
+           body = email_tpls[2][3].replaceAll("{{name}}", name)
            .replaceAll("{{source}}", source)
           .replaceAll("{{target}}", target);
 
           }
-        Logger.log (body)
+       
         GmailApp.createDraft(
           email,
           subject,
