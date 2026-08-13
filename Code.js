@@ -11,7 +11,6 @@
     const templates =  SpreadsheetApp.getActiveSpreadsheet()
                                 .getSheetByName("Template");
 
-    const translator = dashboard.getRange("A2").getValue();
 
 
     const data = database.getDataRange().getValues();
@@ -68,11 +67,22 @@
           .replaceAll("{{target}}", target);
 
           }
-       
+        const files = DriveApp.getFiles(); 
+        const n = Number(dashboard.getRange("C2").getValue());
+        const attachments = [];
+        for (let i = 0; i < n && files.hasNext(); i++) {
+        const file = files.next();
+        attachments.push(file.getBlob());
+        Logger.log(`Attachment: ${file.getName()}`);
+        }
+        
         GmailApp.createDraft(
           email,
           subject,
-          body
+          body,
+           {
+          attachments: attachments
+          }
         );
 
         SpreadsheetApp.getUi().alert("Draft created!");
