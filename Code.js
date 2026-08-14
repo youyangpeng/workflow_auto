@@ -11,11 +11,13 @@
     const templates =  SpreadsheetApp.getActiveSpreadsheet()
                                 .getSheetByName("Template");
 
-
-
+ 
     const data = database.getDataRange().getValues();
 
     const email_tpls = templates.getDataRange().getValues();
+    
+    const translator = dashboard.getRange("A2").getValue();
+
 
     for (let i = 1; i < data.length; i++) {
 

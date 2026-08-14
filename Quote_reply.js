@@ -11,7 +11,7 @@ function replytoquoterequest() {
  if (threads.length === 0) { Logger.log("No unread emails.");
     return;
   }
-
+  
   const templates =  SpreadsheetApp.getActiveSpreadsheet()
                                 .getSheetByName("Template");
   const sheet = SpreadsheetApp.getActive().getSheetByName("Translators");
