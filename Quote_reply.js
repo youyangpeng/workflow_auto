@@ -8,9 +8,9 @@ function replytoquoterequest() {
   )
 ).slice(0, 10)//获取最近两天未读线程，从第0个线程开始，最多返回10个线程
  
- if (threads.length === 0) { Logger.log("No unread emails.");
+  if (threads.length === 0) { Logger.log("No unread emails.");
     return;
-  }
+  } 
   
   const templates =  SpreadsheetApp.getActiveSpreadsheet()
                                 .getSheetByName("Template");
@@ -18,6 +18,12 @@ function replytoquoterequest() {
   const data = sheet.getDataRange().getValues();
 
   const email_tpls = templates.getDataRange().getValues();
+  
+
+  const fullName = `${firstName} ${lastName}`;
+  const quoteLabel = GmailApp.getUserLabelByName("quote asked");
+  
+
   
   
   for (const thread of threads) {
@@ -47,6 +53,9 @@ function replytoquoterequest() {
     else if (subject.includes("Demande de devis")) {body = tpls_fr}
     Logger.log(`body: ${body}`);
     message.createDraftReply(body)
+    thread.addLabel(quoteLabel);
+
+    
  
    
     
